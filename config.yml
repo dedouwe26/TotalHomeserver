@@ -1,0 +1,8 @@
+#  This is the config file.
+lan: 127.0.0.1
+wan: 0.0.0.0 # This is off
+# This is the data file where data is going to be stored.
+datafile: 'data.yml'
+# Here are the accounts to log in on.
+accounts:
+  'admin': 'YourDashboard'

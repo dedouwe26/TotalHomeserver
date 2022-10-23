@@ -1,0 +1,27 @@
+{
+  "name": "totalhomeserver",
+  "version": "1.0.0",
+  "description": "This is a homeserver backend / frontend for my server at home. This is to control the server and add http servers called 'services'. And you'll see the status and other cool stuff.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dedouwe26/TotalHomeserver.git"
+  },
+  "author": "dedouwe26",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dedouwe26/TotalHomeserver/issues"
+  },
+  "homepage": "https://github.com/dedouwe26/TotalHomeserver#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
