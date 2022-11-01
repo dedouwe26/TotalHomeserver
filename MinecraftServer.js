@@ -1,4 +1,4 @@
-const { spawn } = require('child_process')
+import { spawn } from 'child_process';
 
 class server {
     static {
@@ -23,4 +23,16 @@ class server {
     }
 }
 
-module.exports = server
+/* 
+    TEMPORARY:
+#   paper api:
+    https://api.papermc.io/v2/projects/paper/versions/${version}/builds
+    in 'builds' get the latest (last) build: get in there the build
+    filename: also in there: downloads.application.name
+    download url: https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}
+#   vanilla api:
+    minecraft manifest
+
+*/
+
+export default server
