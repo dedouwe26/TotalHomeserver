@@ -4,13 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png">
+    <link rel="stylesheet" href="style.css">
     <title>Adminpanel | TotalHomeserver</title>
 </head>
 <body>
+    <div class="leftMenu">
+        <div class="menuUser"></div>
+        <div class="menuItems">
+            <div class="menuItem" onclick="openPage(0)"><img src="icons/server.png" alt="Status icon"></div>
+            <div class="menuItem" onclick="openPage(1)"><img src="icons/services.png" alt="Services icon"></div>
+            <div class="menuItem" onclick="openPage(2)"><img src="icons/minecraft.png" alt="Minecraft icon"></div>
+            <div class="menuItem" onclick="openPage(3)"><img src="icons/customers.png" alt="Database icon"></div>
+        </div>
+        <div class="menuMenu"></div>
+    </div>
+    <div id="main">
+        <div id="page0" class="page"></div>
+        <div id="page1" class="page"></div>
+        <div id="page2" class="page"></div>
+        <div id="page3" class="page"></div>
+    </div>
     <!-- HTML goes here -->
     <script>const localUUID = '%%UUID%%';</script>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="adminpanel/index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

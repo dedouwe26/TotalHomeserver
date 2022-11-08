@@ -6,5 +6,6 @@ This is a homeserver backend / frontend for my server at home. This is to contro
 	`npm install`
 - Now setup the config.yml: Like the WAN ip and LAN ip.
 - Now type in the terminal: `npm start` to start.
+- Edit the `config.yml`, because there you need to setup the IPs and the passwords
 - Go to `{LAN IP}/adminpanel` and now you are in.
 - To add your own pages read the header down below.

@@ -3,15 +3,22 @@ const socketio = require('socket.io');
 const fs = require('fs');
 const uuid = require('uuid');
 
+const MinecraftServer = require('./MinecraftServer')
+
 class AdminPanel {
     constructor(server, logins) {
+        this.mcserver=null;
         this.loggedIns = {}
 
         const app = express();
 
+        app.disable('x-powered-by');
+        app.use('/icons',express.static(__dirname+'/public/adminpanel/icons'))
+
         const io = new socketio.Server(server);
 
         app.get('/', (req, res) => {
+            res.setHeader('Content-Type', 'text/html');
             if (req.query.username) {
                 if (Object.keys(logins).includes(req.query.username)) {
                     if (logins[req.query.username] === req.query.password) {
@@ -39,7 +46,7 @@ class AdminPanel {
         app.get('/login.css', (_req, res) => {
             res.sendFile(__dirname + '/public/adminpanel/login.css');
         });
-        app.get('/style.css', (req, res) => {
+        app.get('/style.css', (_req, res) => {
             res.sendFile(__dirname + '/public/adminpanel/style.css');
         });
         app.get('/login.js', (_req, res) => {
@@ -51,11 +58,71 @@ class AdminPanel {
             res.sendFile(__dirname + '/public/adminpanel/index.js');
         });
 
-        io.on('connection', socket => {
-
-        });
+        this.setupSocket(io);
 
         return app;
+    }
+    _checkUUID(data) {
+        if (uuid.validate(data.auth)) {
+            return data.auth in this.loggedIns;
+        }
+        return false;
+    }
+    setupSocket(io) {
+        io.on('connection', socket => {
+            // data.event
+            socket.on('mc', (data)=>{
+                if (!this._checkUUID(data)) {return;}
+                switch (data.event) {
+                    case 'init':
+                        if (this.mcserver!==null) {return;}
+                        this.mcserver = new MinecraftServer();
+                        this.mcserver.setOnChangeState((state)=>{if (socket) {socket.emit('state', state)}});
+                        this.mcserver.setOnMessage((msg)=>{if (socket) {socket.emit('msg', msg)}});
+                        break;
+                    case 'turn':
+                        if (data.turn==='on') {
+                            this.mcserver.on();
+                        } else {
+                            this.mcserver.off();
+                        }
+                        break;
+                    case 'getOnOff':
+                        return this.mcserver.process!==null;
+                    case 'setup':
+                        this.mcserver.reset();
+                        this.mcserver.setup(data.type, data.version);
+                        break;
+                    case 'command':
+                        this.mcserver.sendCommand(data.cmd);
+                        break;
+                    case 'eula':
+                        this.mcserver.setEula(data.eula);
+                        break;
+                    case 'setting':
+                        this.mcserver.setEula(data.setting, data.value);
+                        break;
+                    case 'reset':
+                        this.mcserver.reset();
+                        break;
+                    default:
+                        break;
+                }
+            });
+            socket.on('services', (data)=>{
+                if (!this._checkUUID(data)) {return;}
+            });
+            socket.on('status',(data)=>{
+                if (!this._checkUUID(data)) {return;}
+            });
+            socket.on('customers', (data)=>{
+                if (!this._checkUUID(data)) {return;}
+            });
+            socket.on('more', (data)=>{
+                if (!this._checkUUID(data)) {return;}
+            });
+
+        });
     }
 }
 
